@@ -16,6 +16,12 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
+# Crear historial_cuentas.json vacío si no existe
+if not os.path.exists(HISTORIAL_FILE):
+    os.makedirs(os.path.dirname(HISTORIAL_FILE), exist_ok=True)
+    with open(HISTORIAL_FILE, 'w') as f:
+        f.write('[]')
+
 def reemplazar_punto_y_coma(valor):
     """
     Convierte un string con puntos o comas a formato float estándar.
