@@ -1,4 +1,4 @@
 logs/
 __pycache__/
 .env
-historial_cuentas.json
+json/historial_cuentas.json
