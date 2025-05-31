@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse, JSONResponse
 import uvicorn
 import os
 import sys
+from loguru import logger
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from python.app_client import calcular_cuentas, agregar_a_historial, obtener_historial, eliminar_registro_historial
 
@@ -48,4 +49,5 @@ def api_eliminar_historial(id_registro: str):
     return JSONResponse(content={"success": ok})
 
 if __name__ == "__main__":
+    logger.info("Iniciando servidor...")
     uvicorn.run("python.run:app", host="127.0.0.1", port=8000, reload=True) 
