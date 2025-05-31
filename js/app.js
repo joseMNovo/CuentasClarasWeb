@@ -21,10 +21,50 @@ function parseNumberInput(value) {
 }
 
 // Calculator functions
+function showToast(message) {
+    let toast = document.getElementById('toast-message');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-message';
+        toast.style.position = 'fixed';
+        toast.style.top = '32px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = 'rgba(44, 62, 80, 0.95)';
+        toast.style.color = '#fff';
+        toast.style.padding = '16px 32px';
+        toast.style.borderRadius = '32px';
+        toast.style.fontSize = '15px';
+        toast.style.boxShadow = '0 4px 16px rgba(0,0,0,0.18)';
+        toast.style.zIndex = '9999';
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2200);
+}
+
 function calculate() {
-    const sueldo1 = parseNumberInput(document.getElementById('sueldo1').value);
-    const sueldo2 = parseNumberInput(document.getElementById('sueldo2').value);
-    const total = parseNumberInput(document.getElementById('total').value);
+    const sueldo1Value = document.getElementById('sueldo1').value;
+    const sueldo2Value = document.getElementById('sueldo2').value;
+    const totalValue = document.getElementById('total').value;
+    if (!sueldo1Value || !sueldo2Value || !totalValue) {
+        showToast('Por favor, completa todos los campos, incluyendo el monto.');
+        document.getElementById('result1').textContent = '$0,00';
+        document.getElementById('result2').textContent = '$0,00';
+        return null;
+    }
+    const sueldo1 = parseNumberInput(sueldo1Value);
+    const sueldo2 = parseNumberInput(sueldo2Value);
+    const total = parseNumberInput(totalValue);
+    if (total > sueldo1 + sueldo2) {
+        showToast('El monto no puede ser más alto que los sueldos.');
+        document.getElementById('result1').textContent = '$0,00';
+        document.getElementById('result2').textContent = '$0,00';
+        return null;
+    }
     if (total > 0 && (sueldo1 > 0 || sueldo2 > 0)) {
         const sueldoTotal = sueldo1 + sueldo2;
         const pago1 = (sueldo1 / sueldoTotal) * total;
