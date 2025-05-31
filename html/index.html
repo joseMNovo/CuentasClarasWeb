@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas Claras</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="calculator">Calculadora</div>
+            <div class="tab inactive" data-tab="history">Historial</div>
+        </div>
+        
+        <h1>CUENTAS CLARAS</h1>
+        
+        <!-- Calculator Section -->
+        <div class="calculator-section active" id="calculator-section">
+            <div class="input-group">
+                <div class="input-label">Sueldo 1</div>
+                <input type="text" inputmode="decimal" pattern="[0-9.,]*" class="input-field" id="sueldo1" placeholder="Ingresa el sueldo">
+            </div>
+            
+            <div class="input-group">
+                <div class="input-label">Sueldo 2</div>
+                <input type="text" inputmode="decimal" pattern="[0-9.,]*" class="input-field" id="sueldo2" placeholder="Ingresa el sueldo">
+            </div>
+            
+            <div class="input-group">
+                <div class="input-label to-pay-label">A pagar</div>
+                <input type="text" inputmode="decimal" pattern="[0-9.,]*" class="input-field" id="total" value="" placeholder="Monto total a dividir">
+            </div>
+            
+            <div class="results-section">
+                <div class="result-group">
+                    <div class="result-label">Sueldo 1:</div>
+                    <div class="result-value" id="result1"></div>
+                </div>
+                
+                <div class="result-group">
+                    <div class="result-label">Sueldo 2:</div>
+                    <div class="result-value" id="result2"></div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn btn-calculate" id="calculate-btn">Calcular</button>
+                <button class="btn btn-clear" id="clear-btn">Limpiar</button>
+            </div>
+        </div>
+        
+        <!-- History Section -->
+        <div class="history-section" id="history-section">
+            <div class="history-header">
+                <input type="text" class="search-box" id="search-box" placeholder="Buscar por fecha o monto...">
+                <button class="add-btn" id="add-record-btn">+ Nuevo Registro</button>
+            </div>
+            
+            <div id="history-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="footer" id="cat-footer">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+
+</body>
+</html>
