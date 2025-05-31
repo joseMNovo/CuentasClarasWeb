@@ -601,6 +601,7 @@ h1 {
     .calculator-container {
         padding: 20px 16px;
         margin: 8px;
+        width: 100%;
     }
 
     h1 {
