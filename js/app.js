@@ -229,7 +229,7 @@ window.addEventListener('DOMContentLoaded', function() {
     loadHistory();
     document.getElementById('calculate-btn').addEventListener('click', () => {
         calculate();
-        saveCalculation();
+        //saveCalculation();
     });
     document.getElementById('clear-btn').addEventListener('click', clearCalculator);
     document.querySelectorAll('.input-field').forEach(input => {
