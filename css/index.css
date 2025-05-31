@@ -601,7 +601,6 @@ h1 {
     .calculator-container {
         padding: 20px 16px;
         margin: 8px;
-        width: 100%;
     }
 
     h1 {
@@ -617,6 +616,7 @@ h1 {
     .input-field {
         font-size: 16px;
         padding: 14px 16px;
+        width: 100%;
     }
 
     .results-section {
