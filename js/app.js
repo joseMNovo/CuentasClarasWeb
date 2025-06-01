@@ -67,11 +67,25 @@ function calculate() {
     }
     if (total > 0 && (sueldo1 > 0 || sueldo2 > 0)) {
         const sueldoTotal = sueldo1 + sueldo2;
+        const porcentaje1 = sueldoTotal > 0 ? (sueldo1 / sueldoTotal) * 100 : 0;
+        const porcentaje2 = sueldoTotal > 0 ? (sueldo2 / sueldoTotal) * 100 : 0;
         const pago1 = (sueldo1 / sueldoTotal) * total;
         const pago2 = (sueldo2 / sueldoTotal) * total;
-        document.getElementById('result1').textContent = formatCurrency(pago1);
-        document.getElementById('result2').textContent = formatCurrency(pago2);
-        return { sueldo1, sueldo2, total, pago1, pago2 };
+
+        // Formatear con puntos como separador de miles y coma para decimales
+        function formatWithDots(value) {
+            // Redondear a 2 decimales
+            let parts = value.toFixed(2).split('.');
+            let integerPart = parts[0];
+            let decimalPart = parts[1];
+            // Insertar puntos como separador de miles
+            integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return integerPart + ',' + decimalPart;
+        }
+
+        document.getElementById('result1').innerHTML = `${formatWithDots(pago1)} <span style="font-size: 0.75em;"> - (${porcentaje1.toFixed(2)}%)</span>`;
+        document.getElementById('result2').innerHTML = `${formatWithDots(pago2)} <span style="font-size: 0.75em;"> - (${porcentaje2.toFixed(2)}%)</span>`;
+        return { sueldo1, sueldo2, total, pago1, pago2, porcentaje1, porcentaje2 };
     } else {
         document.getElementById('result1').textContent = '$0,00';
         document.getElementById('result2').textContent = '$0,00';
