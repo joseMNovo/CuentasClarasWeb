@@ -10,6 +10,7 @@ app.mount("/html", StaticFiles(directory="html"), name="html")
 app.mount("/css", StaticFiles(directory="css"), name="css")
 app.mount("/js", StaticFiles(directory="js"), name="js")
 app.mount("/json", StaticFiles(directory="json"), name="json")
+app.mount("/img", StaticFiles(directory="img"), name="img")
 
 # Landing page por defecto
 @app.get("/")

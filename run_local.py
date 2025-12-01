@@ -10,7 +10,7 @@ app = FastAPI()
 app.mount("/html", StaticFiles(directory="html"), name="html")
 app.mount("/css", StaticFiles(directory="css"), name="css")
 app.mount("/js", StaticFiles(directory="js"), name="js")
-
+app.mount("/img", StaticFiles(directory="img"), name="img")
 # Ruta principal para servir el index.html
 @app.get("/")
 def root():
