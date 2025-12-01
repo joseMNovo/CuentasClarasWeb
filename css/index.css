@@ -791,27 +791,26 @@ h1 {
     }
 
     .add-item-form {
-        flex-wrap: wrap;
-        gap: 8px;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
     }
-
+    
     .item-amount-input {
-        flex: 1 1 auto;
-        min-width: 0;
+        grid-column: 1;
     }
-
+    
     .item-desc-input {
-        flex: 1 1 100%;
-        min-width: 0;
+        grid-column: 2;
+    }
+    
+    .btn-add-suma {
+        grid-column: 1;
         width: 100%;
     }
-
-    .btn-add-suma {
-        flex: 0 0 auto;
-    }
-
+    
     .btn-add-resta {
-        flex: 0 0 auto;
+        grid-column: 2;
+        width: 100%;
     }
 
     .item-row {
@@ -844,7 +843,34 @@ h1 {
     
     .modifications-popup {
         max-width: 90%;
-        min-width: 200px;
+        min-width: 280px;
+        padding: 16px;
+        max-height: 80vh;
+    }
+    
+    .popup-header {
+        font-size: 15px;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+    }
+    
+    .popup-summary-section {
+        padding: 10px;
+        margin-bottom: 14px;
+    }
+    
+    .popup-section {
+        padding: 10px;
+        margin-bottom: 14px;
+    }
+    
+    .popup-section-title {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+    
+    .popup-final-value {
+        font-size: 14px;
     }
 
     /* History section mobile improvements */
@@ -995,21 +1021,20 @@ h1 {
 }
 
 .add-item-form {
-    display: flex;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 120px 1fr 50px 50px;
+    gap: 10px;
     align-items: center;
-    padding: 12px;
+    padding: 14px;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    flex-wrap: wrap;
     box-sizing: border-box;
 }
 
 .item-amount-input {
-    flex: 0 0 100px;
-    min-width: 80px;
-    padding: 10px 12px;
+    width: 100%;
+    padding: 11px 12px;
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.05);
@@ -1027,9 +1052,8 @@ h1 {
 }
 
 .item-desc-input {
-    flex: 1 1 auto;
-    min-width: 0;
-    padding: 10px 12px;
+    width: 100%;
+    padding: 11px 12px;
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.05);
@@ -1046,33 +1070,24 @@ h1 {
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
-.item-amount-input:focus {
-    outline: none;
-    border-color: #3498db;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-}
-
 .btn-add-suma {
-    padding: 10px 14px;
+    padding: 0;
     border: none;
     border-radius: 6px;
     background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
     color: white;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 6px rgba(39, 174, 96, 0.3);
-    min-width: 45px;
-    height: 40px;
-    flex: 0 0 auto;
+    width: 100%;
+    height: 42px;
     line-height: 1;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    vertical-align: middle;
 }
 
 .btn-add-suma:hover {
@@ -1081,25 +1096,23 @@ h1 {
 }
 
 .btn-add-resta {
-    padding: 10px 14px;
+    padding: 0;
     border: none;
     border-radius: 6px;
     background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
     color: white;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
-    min-width: 45px;
-    height: 40px;
-    flex: 0 0 auto;
+    width: 100%;
+    height: 42px;
     line-height: 1;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    vertical-align: middle;
 }
 
 .btn-add-resta:hover {
@@ -1256,28 +1269,61 @@ h1 {
 /* Popup de modificaciones */
 .modifications-popup {
     display: none;
-    position: absolute;
+    position: fixed;
     background: rgba(30, 30, 30, 0.98);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 20px;
     z-index: 10003;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-    min-width: 250px;
-    max-width: 350px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    min-width: 320px;
+    max-width: 400px;
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 .popup-header {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     color: #f0f0f0;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    text-align: center;
+}
+
+.popup-summary-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popup-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-summary-label {
+    color: #c0c0c0;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.popup-summary-value {
+    color: #2ecc71;
+    font-weight: 700;
+    font-size: 15px;
 }
 
 .popup-section {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .popup-section:last-child {
@@ -1286,9 +1332,60 @@ h1 {
 
 .popup-section-title {
     font-weight: 600;
+    font-size: 14px;
+    color: #f0f0f0;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popup-original-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 0;
+}
+
+.popup-original-label {
+    color: #a0a0a0;
+    font-size: 12px;
+}
+
+.popup-original-value {
+    color: #888;
     font-size: 13px;
-    color: #c0c0c0;
-    margin-bottom: 8px;
+}
+
+.popup-original-value.strikethrough {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.popup-items-container {
+    margin: 10px 0;
+    padding-left: 8px;
+}
+
+.popup-final-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popup-final-label {
+    color: #f0f0f0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.popup-final-value {
+    color: #f39c12;
+    font-weight: 700;
+    font-size: 15px;
 }
 
 .popup-item {
@@ -1640,6 +1737,22 @@ h1 {
         padding: 18px;
     }
     
+    .add-item-form {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .item-amount-input,
+    .item-desc-input {
+        grid-column: 1;
+    }
+    
+    .btn-add-suma,
+    .btn-add-resta {
+        grid-column: 1;
+        width: 100%;
+    }
+    
     .rename-popup-content {
         width: 98%;
         padding: 18px;
@@ -1648,8 +1761,64 @@ h1 {
     
     .modifications-popup {
         max-width: 95%;
-        min-width: 180px;
+        min-width: 260px;
+        padding: 14px;
+        max-height: 75vh;
+    }
+    
+    .popup-header {
+        font-size: 14px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+    
+    .popup-summary-section {
+        padding: 8px;
+        margin-bottom: 12px;
+    }
+    
+    .popup-summary-label {
         font-size: 12px;
+    }
+    
+    .popup-summary-value {
+        font-size: 14px;
+    }
+    
+    .popup-section {
+        padding: 8px;
+        margin-bottom: 12px;
+    }
+    
+    .popup-section-title {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+    
+    .popup-original-label,
+    .popup-original-value {
+        font-size: 11px;
+    }
+    
+    .popup-item {
+        padding: 4px 0;
+        gap: 6px;
+    }
+    
+    .popup-desc {
+        font-size: 11px;
+    }
+    
+    .popup-amount {
+        font-size: 11px;
+    }
+    
+    .popup-final-label {
+        font-size: 12px;
+    }
+    
+    .popup-final-value {
+        font-size: 13px;
     }
     
     .news-modal-content {

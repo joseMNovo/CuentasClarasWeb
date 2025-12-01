@@ -249,6 +249,8 @@ function clearCalculator() {
     document.getElementById('modify-btn-2').style.display = 'none';
     document.getElementById('modification-icon').style.display = 'none';
     modifications = { sueldo1: [], sueldo2: [] };
+    // Reiniciar nombres de sueldos a los valores por defecto
+    loadSueldoNames();
 }
 
 // Cargar historial desde el backend
@@ -548,11 +550,50 @@ function showModificationsPopup(event) {
         return;
     }
     
+    // Obtener valores actuales de los inputs
+    const sueldo1Value = document.getElementById('sueldo1').value;
+    const sueldo2Value = document.getElementById('sueldo2').value;
+    const totalValue = document.getElementById('total').value;
+    
+    if (!sueldo1Value || !sueldo2Value || !totalValue) {
+        return;
+    }
+    
+    const sueldo1 = parseNumberInput(sueldo1Value);
+    const sueldo2 = parseNumberInput(sueldo2Value);
+    const total = parseNumberInput(totalValue);
+    const sueldoTotal = sueldo1 + sueldo2;
+    const porcentaje1 = sueldoTotal > 0 ? (sueldo1 / sueldoTotal) * 100 : 0;
+    const porcentaje2 = sueldoTotal > 0 ? (sueldo2 / sueldoTotal) * 100 : 0;
+    const pago1 = (sueldo1 / sueldoTotal) * total;
+    const pago2 = (sueldo2 / sueldoTotal) * total;
+    
+    // Calcular modificaciones
+    const mod1 = calculateModificationTotal(1);
+    const mod2 = calculateModificationTotal(2);
+    const pago1Final = pago1 + mod1;
+    const pago2Final = pago2 + mod2;
+    
     const popup = document.getElementById('modifications-popup');
-    let html = '<div class="popup-header">Modificaciones</div>';
+    let html = '<div class="popup-header">Resumen de Modificaciones</div>';
+    
+    // Resumen de totales
+    html += '<div class="popup-summary-section">';
+    html += '<div class="popup-summary-row">';
+    html += '<span class="popup-summary-label">Total a pagar:</span>';
+    html += `<span class="popup-summary-value">${formatWithDots(total)}</span>`;
+    html += '</div>';
+    html += '</div>';
+    
+    // Sueldo 1
+    html += `<div class="popup-section"><div class="popup-section-title">${sueldoNames.sueldo1}</div>`;
+    html += '<div class="popup-original-row">';
+    html += `<span class="popup-original-label">Original:</span>`;
+    html += `<span class="popup-original-value strikethrough">${formatWithDots(pago1)} (${porcentaje1.toFixed(2)}%)</span>`;
+    html += '</div>';
     
     if (items1.length > 0) {
-        html += `<div class="popup-section"><div class="popup-section-title">${sueldoNames.sueldo1}:</div>`;
+        html += '<div class="popup-items-container">';
         items1.forEach(item => {
             html += `
                 <div class="popup-item">
@@ -565,8 +606,21 @@ function showModificationsPopup(event) {
         html += '</div>';
     }
     
+    html += '<div class="popup-final-row">';
+    html += `<span class="popup-final-label">Total final:</span>`;
+    html += `<span class="popup-final-value">${formatWithDots(pago1Final)}</span>`;
+    html += '</div>';
+    html += '</div>';
+    
+    // Sueldo 2
+    html += `<div class="popup-section"><div class="popup-section-title">${sueldoNames.sueldo2}</div>`;
+    html += '<div class="popup-original-row">';
+    html += `<span class="popup-original-label">Original:</span>`;
+    html += `<span class="popup-original-value strikethrough">${formatWithDots(pago2)} (${porcentaje2.toFixed(2)}%)</span>`;
+    html += '</div>';
+    
     if (items2.length > 0) {
-        html += `<div class="popup-section"><div class="popup-section-title">${sueldoNames.sueldo2}:</div>`;
+        html += '<div class="popup-items-container">';
         items2.forEach(item => {
             html += `
                 <div class="popup-item">
@@ -579,10 +633,47 @@ function showModificationsPopup(event) {
         html += '</div>';
     }
     
+    html += '<div class="popup-final-row">';
+    html += `<span class="popup-final-label">Total final:</span>`;
+    html += `<span class="popup-final-value">${formatWithDots(pago2Final)}</span>`;
+    html += '</div>';
+    html += '</div>';
+    
     popup.innerHTML = html;
     popup.style.display = 'block';
-    popup.style.left = event.pageX + 10 + 'px';
-    popup.style.top = event.pageY + 10 + 'px';
+    
+    // Forzar reflow para obtener dimensiones correctas
+    popup.offsetHeight;
+    
+    // Posicionar el popup de manera útil (centrado en pantalla o cerca del icono)
+    const iconRect = event.target.closest('.modification-icon').getBoundingClientRect();
+    const popupWidth = 380;
+    const popupHeight = popup.offsetHeight;
+    
+    // Intentar posicionar a la derecha del icono
+    let leftPos = iconRect.right + 20;
+    
+    // Si no cabe a la derecha, intentar a la izquierda
+    if (leftPos + popupWidth > window.innerWidth - 20) {
+        leftPos = iconRect.left - popupWidth - 20;
+        // Si tampoco cabe a la izquierda, centrar horizontalmente
+        if (leftPos < 20) {
+            leftPos = (window.innerWidth - popupWidth) / 2;
+        }
+    }
+    
+    // Posicionar verticalmente: intentar centrar respecto al icono
+    let topPos = iconRect.top + (iconRect.height / 2) - (popupHeight / 2);
+    
+    // Ajustar si se sale de la pantalla
+    if (topPos < 20) {
+        topPos = 20;
+    } else if (topPos + popupHeight > window.innerHeight - 20) {
+        topPos = window.innerHeight - popupHeight - 20;
+    }
+    
+    popup.style.left = Math.max(20, Math.min(leftPos, window.innerWidth - popupWidth - 20)) + 'px';
+    popup.style.top = Math.max(20, Math.min(topPos, window.innerHeight - popupHeight - 20)) + 'px';
 }
 
 function hideModificationsPopup() {
