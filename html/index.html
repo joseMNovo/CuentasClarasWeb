@@ -18,12 +18,12 @@
         <!-- Calculator Section -->
         <div class="calculator-section active" id="calculator-section">
             <div class="input-group">
-                <div class="input-label">Sueldo 1</div>
+                <div class="input-label renameable" id="label-sueldo1" data-sueldo="1">Sueldo 1</div>
                 <input type="text" inputmode="decimal" pattern="[0-9.,]*" class="input-field" id="sueldo1" placeholder="Ingresa el sueldo">
             </div>
             
             <div class="input-group">
-                <div class="input-label">Sueldo 2</div>
+                <div class="input-label renameable" id="label-sueldo2" data-sueldo="2">Sueldo 2</div>
                 <input type="text" inputmode="decimal" pattern="[0-9.,]*" class="input-field" id="sueldo2" placeholder="Ingresa el sueldo">
             </div>
             
@@ -107,6 +107,31 @@
     
     <!-- Popup para mostrar modificaciones en el campo total -->
     <div class="modifications-popup" id="modifications-popup"></div>
+    
+    <!-- Popup para renombrar sueldos -->
+    <div class="rename-popup" id="rename-popup">
+        <div class="rename-popup-content">
+            <input type="text" class="rename-input" id="rename-input" placeholder="Nuevo nombre" maxlength="20">
+            <div class="rename-buttons">
+                <button class="rename-btn-cancel" id="rename-cancel">Cancelar</button>
+                <button class="rename-btn-save" id="rename-save">Guardar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de novedades -->
+    <div class="news-modal-overlay" id="news-modal">
+        <div class="news-modal-content">
+            <button class="news-modal-close" id="news-modal-close">×</button>
+            <h2 class="news-modal-title">Actualizaciones en la herramienta</h2>
+            <ul class="news-modal-list">
+                <li>Renombrá "Sueldo 1" y "Sueldo 2" haciendo clic sobre el nombre.</li>
+                <li>Ajustá pequeñas diferencias en los montos finales con el ícono de lápiz. Cuando edites un monto, vas a ver un ícono de ayuda con más info.</li>
+            </ul>
+            <button class="news-modal-btn" id="news-modal-btn">Entendido</button>
+        </div>
+    </div>
+    
     <div class="by-giuseppe">By Giuseppe 🧉</div>
 
     <script src="/js/app.js"></script>

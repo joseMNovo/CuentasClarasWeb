@@ -61,29 +61,92 @@ let modifications = {
 
 let currentModifyingSueldo = null;
 
+// Nombres personalizados de sueldos
+let sueldoNames = {
+    sueldo1: 'Sueldo 1',
+    sueldo2: 'Sueldo 2'
+};
+
+let currentRenamingSueldo = null;
+
+// Cargar nombres (siempre por defecto)
+function loadSueldoNames() {
+    // Siempre reiniciar a los valores por defecto
+    sueldoNames = {
+        sueldo1: 'Sueldo 1',
+        sueldo2: 'Sueldo 2'
+    };
+    updateAllSueldoNames();
+}
+
+// Guardar nombres (solo en memoria, no en localStorage)
+function saveSueldoNames() {
+    updateAllSueldoNames();
+    // Si el modal de modificaciones está abierto, actualizar su título
+    if (currentModifyingSueldo) {
+        const modalTitle = document.getElementById('modal-title');
+        const sueldoKey = `sueldo${currentModifyingSueldo}`;
+        if (modalTitle) {
+            modalTitle.textContent = `Modificar ${sueldoNames[sueldoKey]}`;
+        }
+    }
+}
+
+// Actualizar todos los lugares donde aparecen los nombres
+function updateAllSueldoNames() {
+    // Actualizar labels de inputs
+    document.getElementById('label-sueldo1').textContent = sueldoNames.sueldo1;
+    document.getElementById('label-sueldo2').textContent = sueldoNames.sueldo2;
+    
+    // Actualizar labels de resultados
+    const resultGroups = document.querySelectorAll('.result-group');
+    if (resultGroups.length >= 2) {
+        const result1Label = resultGroups[0].querySelector('.result-label');
+        const result2Label = resultGroups[1].querySelector('.result-label');
+        if (result1Label) result1Label.textContent = sueldoNames.sueldo1 + ':';
+        if (result2Label) result2Label.textContent = sueldoNames.sueldo2 + ':';
+    }
+}
+
+// Funciones para renombrar
+function openRenamePopup(sueldoNum) {
+    currentRenamingSueldo = sueldoNum;
+    const popup = document.getElementById('rename-popup');
+    const input = document.getElementById('rename-input');
+    const sueldoKey = `sueldo${sueldoNum}`;
+    input.value = sueldoNames[sueldoKey];
+    popup.classList.add('active');
+    input.focus();
+    input.select();
+}
+
+function closeRenamePopup() {
+    const popup = document.getElementById('rename-popup');
+    popup.classList.remove('active');
+    currentRenamingSueldo = null;
+}
+
+function saveRename() {
+    if (!currentRenamingSueldo) return;
+    const input = document.getElementById('rename-input');
+    const newName = input.value.trim();
+    if (newName) {
+        const sueldoKey = `sueldo${currentRenamingSueldo}`;
+        sueldoNames[sueldoKey] = newName;
+        saveSueldoNames();
+    }
+    closeRenamePopup();
+}
+
 // Calculator functions
 function showToast(message) {
     let toast = document.getElementById('toast-message');
     if (!toast) {
         toast = document.createElement('div');
         toast.id = 'toast-message';
-        toast.style.position = 'fixed';
-        toast.style.top = '32px';
-        toast.style.left = '50%';
-        toast.style.transform = 'translateX(-50%)';
-        toast.style.background = 'rgba(44, 62, 80, 0.95)';
-        toast.style.color = '#fff';
-        toast.style.padding = '16px 32px';
-        toast.style.borderRadius = '32px';
-        toast.style.fontSize = '15px';
-        toast.style.boxShadow = '0 4px 16px rgba(0,0,0,0.18)';
-        toast.style.zIndex = '10002';
-        toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.3s';
         document.body.appendChild(toast);
     }
     toast.textContent = message;
-    toast.style.zIndex = '10002';
     toast.style.opacity = '1';
     setTimeout(() => { toast.style.opacity = '0'; }, 2200);
 }
@@ -353,7 +416,8 @@ function openModifyModal(sueldoNum) {
     currentModifyingSueldo = sueldoNum;
     const modal = document.getElementById('modify-modal');
     const modalTitle = document.getElementById('modal-title');
-    modalTitle.textContent = `Modificar Sueldo ${sueldoNum}`;
+    const sueldoKey = `sueldo${sueldoNum}`;
+    modalTitle.textContent = `Modificar ${sueldoNames[sueldoKey]}`;
     // Limpiar inputs
     document.getElementById('item-desc-input').value = '';
     document.getElementById('item-amount-input').value = '';
@@ -488,7 +552,7 @@ function showModificationsPopup(event) {
     let html = '<div class="popup-header">Modificaciones</div>';
     
     if (items1.length > 0) {
-        html += '<div class="popup-section"><div class="popup-section-title">Sueldo 1:</div>';
+        html += `<div class="popup-section"><div class="popup-section-title">${sueldoNames.sueldo1}:</div>`;
         items1.forEach(item => {
             html += `
                 <div class="popup-item">
@@ -502,7 +566,7 @@ function showModificationsPopup(event) {
     }
     
     if (items2.length > 0) {
-        html += '<div class="popup-section"><div class="popup-section-title">Sueldo 2:</div>';
+        html += `<div class="popup-section"><div class="popup-section-title">${sueldoNames.sueldo2}:</div>`;
         items2.forEach(item => {
             html += `
                 <div class="popup-item">
@@ -595,6 +659,27 @@ window.addEventListener('DOMContentLoaded', function() {
     // Configurar validación numérica
     setupNumericValidation();
     
+    // Cargar nombres personalizados
+    loadSueldoNames();
+    
+    // Eventos para renombrar sueldos
+    document.getElementById('label-sueldo1').addEventListener('click', () => openRenamePopup(1));
+    document.getElementById('label-sueldo2').addEventListener('click', () => openRenamePopup(2));
+    document.getElementById('rename-save').addEventListener('click', saveRename);
+    document.getElementById('rename-cancel').addEventListener('click', closeRenamePopup);
+    document.getElementById('rename-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            saveRename();
+        } else if (e.key === 'Escape') {
+            closeRenamePopup();
+        }
+    });
+    document.getElementById('rename-popup').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeRenamePopup();
+        }
+    });
+    
     // Ocultar botones de modificar inicialmente
     document.getElementById('modify-btn-1').style.display = 'none';
     document.getElementById('modify-btn-2').style.display = 'none';
@@ -619,4 +704,43 @@ window.addEventListener('DOMContentLoaded', function() {
     document.getElementById('result2').addEventListener('mouseleave', hideItemsTooltip);
     
     showRandomCatFact();
-}); 
+    
+    // Configurar modal de novedades
+    const newsModal = document.getElementById('news-modal');
+    const newsModalClose = document.getElementById('news-modal-close');
+    const newsModalBtn = document.getElementById('news-modal-btn');
+    
+    if (newsModalClose) {
+        newsModalClose.addEventListener('click', closeNewsModal);
+    }
+    
+    if (newsModalBtn) {
+        newsModalBtn.addEventListener('click', closeNewsModal);
+    }
+    
+    if (newsModal) {
+        newsModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNewsModal();
+            }
+        });
+        
+        // Mostrar modal de novedades al cargar
+        showNewsModal();
+    }
+});
+
+// Modal de novedades
+function showNewsModal() {
+    const modal = document.getElementById('news-modal');
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+function closeNewsModal() {
+    const modal = document.getElementById('news-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+} 
