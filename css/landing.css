@@ -160,3 +160,15 @@ body {
     pointer-events: none;
     font-family: inherit;
 }
+
+.version-footer {
+    position: fixed;
+    left: 12px;
+    bottom: 8px;
+    font-size: 10px;
+    color: #666;
+    opacity: 0.5;
+    z-index: 100;
+    pointer-events: none;
+    font-family: inherit;
+}
