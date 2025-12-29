@@ -797,41 +797,41 @@ window.addEventListener('DOMContentLoaded', function() {
     showRandomCatFact();
     
     // Configurar modal de novedades
-    const newsModal = document.getElementById('news-modal');
-    const newsModalClose = document.getElementById('news-modal-close');
-    const newsModalBtn = document.getElementById('news-modal-btn');
+    // const newsModal = document.getElementById('news-modal');
+    // const newsModalClose = document.getElementById('news-modal-close');
+    // const newsModalBtn = document.getElementById('news-modal-btn');
     
-    if (newsModalClose) {
-        newsModalClose.addEventListener('click', closeNewsModal);
-    }
+    // if (newsModalClose) {
+    //     newsModalClose.addEventListener('click', closeNewsModal);
+    // }
     
-    if (newsModalBtn) {
-        newsModalBtn.addEventListener('click', closeNewsModal);
-    }
+    // if (newsModalBtn) {
+    //     newsModalBtn.addEventListener('click', closeNewsModal);
+    // }
     
-    if (newsModal) {
-        newsModal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeNewsModal();
-            }
-        });
+    // if (newsModal) {
+    //     newsModal.addEventListener('click', function(e) {
+    //         if (e.target === this) {
+    //             closeNewsModal();
+    //         }
+    //     });
         
-        // Mostrar modal de novedades al cargar
-        showNewsModal();
-    }
+    //     // Mostrar modal de novedades al cargar
+    //     showNewsModal();
+    // }
 });
 
 // Modal de novedades
-function showNewsModal() {
-    const modal = document.getElementById('news-modal');
-    if (modal) {
-        modal.classList.add('active');
-    }
-}
+// function showNewsModal() {
+//     const modal = document.getElementById('news-modal');
+//     if (modal) {
+//         modal.classList.add('active');
+//     }
+// }
 
-function closeNewsModal() {
-    const modal = document.getElementById('news-modal');
-    if (modal) {
-        modal.classList.remove('active');
-    }
-} 
+// function closeNewsModal() {
+//     const modal = document.getElementById('news-modal');
+//     if (modal) {
+//         modal.classList.remove('active');
+//     }
+// } 
