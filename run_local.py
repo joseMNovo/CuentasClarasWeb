@@ -14,6 +14,10 @@ app.mount("/img", StaticFiles(directory="img"), name="img")
 # Ruta principal para servir el index.html
 @app.get("/")
 def root():
+    return FileResponse(os.path.join("html", "landing.html"))
+
+@app.get("/index")
+def index():
     return FileResponse(os.path.join("html", "index.html"))
 
 if __name__ == "__main__":
